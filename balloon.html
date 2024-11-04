@@ -39,6 +39,16 @@
         balloon.style.width = `${newSize}px`;   //"new size" est un paramètre passé à la fonction updateBalloonSize(newSize), il représente la nouvelle valeur que l'on souhaite donner à la largeur /hauteur de l'élément
     	}                                       //`${newSize}px` permet d'insérer des variables ou des expressions directement dans une chaîne de caractères, il insère la valeur de newSize dans la chaîne de caractères, le suffixe px est ajouté pour indiauer que la valeur de width doit être interprétée en pixels (comme en CSS)
 		
+		const colorbook1 = ["color2", "color3", "color1"]  //on crée un tableau pour regrouper l'ensemble de couleur que l'on veut mettre pour le balloon	
+		/*change l'ordre de l'array colorbook1 */
+		let colorbook2 = [...colorbook1]
+		colorbook2.splice(0, 0, colorbook1[colorbook1.length - 1])
+		colorbook2.pop()
+		colorbook2 = [...colorbook2].reverse()
+
+		let NbClick = 0 //on crée un compteur pour le nombre de click, la valeur initale est 	0
+		let NbMoveout = 0 //on crée un compteur pour le nombre de mouseleave, la valeur initale est 	0
+
 		Balloon.addEventListener("click",souffler)   //pour l'objet balloon, on ajoute un évènement dessus, lorsque l'on clique, il va enclencher la function "souffler"
 		function souffler(){               //création de la function souffler()
 			if (size <415){                //quand la taille est inférieure à 415 on va ajouter 10 px sur le balloon.
@@ -49,49 +59,39 @@
 				size=200 
 				updateBalloonSize(size)     //为了使代码更清晰且达到预期效果，可以在 souffler() 函数中明确重置尺寸并简化逻辑
 			}
+			function changecolor1() {    //création de la function changecolor1()
+				if (size === 200) {         //lorsque le balloon =200, la couleur est devenue rouge
+					Balloon.setAttribute("class", "color1")
+				} else {                   //si size>200, la couleur prendra dans l'ordre "color1->color2->color3->color1->color2->color3 ......"
+					Balloon.setAttribute("class", colorbook1[NbClick % colorbook1.length]) //on remplace la class de div id=balloon par l'élément dans le tableau colorbook1, ce qui est dans le [], voir l'exemple dans la solution N°1 optimisé dans le classeur "C:\Users\zhaoy\OneDrive\桌面\discovery_piscine\cell03\ex00"
+					NbClick++ //à chaque fois l'on execute la function changecolor1(), on ajoute 1 pour le variable NbClick
+					console.log(NbClick) //pour vérifier si le variable NbClick a bien été mis à jour après NbClick++	
+				}
+			}  
+			changecolor1()
 		}
 
-		const colorbook1=["color2","color3","color1"]  //on crée un tableau pour regrouper l'ensemble de couleur que l'on veut mettre pour le balloon
-		let NbClick=0 //on crée un compteur pour le nombre de click, la valeur initale est 	0
-		Balloon.addEventListener("click",changecolor1) //pour l'objet balloon, on ajoute un deuxième évènement dessus, lorsque on click le balloon, il va enclencher la function "changecolor1"
-		function changecolor1() {    //création de la function changecolor1()
-			if (size===200){         //lorsque le balloon =200, la couleur est devenue rouge
-				Balloon.setAttribute("class","color1")
-			}else{                   //si size>200, la couleur prendra dans l'ordre "color1->color2->color3->color1->color2->color3 ......"
-			Balloon.setAttribute("class",colorbook1[NbClick%colorbook1.length]) //on remplace la class de div id=balloon par l'élément dans le tableau colorbook1, ce qui est dans le [], voir l'exemple dans la solution N°1 optimisé dans le classeur "C:\Users\zhaoy\OneDrive\桌面\discovery_piscine\cell03\ex00"
-			NbClick++ //à chaque fois l'on execute la function changecolor1(), on ajoute 1 pour le variable NbClick
-			console.log(NbClick) //pour vérifier si le variable NbClick a bien été mis à jour après NbClick++	
-			}
-		}                                                  															
-
-		
 		Balloon.addEventListener("mouseleave",degonfler) //pour l'objet balloon, on ajoute un troisième évènement dessous, lorsque l'on enlève le souris depuis le balloon, il va exécuter la function "degoufler" ci-dessous 
 		function degonfler(){   //création de la function degoufler()
 			if (size >200){    
 			size-=5             //le variable size va reduire 5px
 			updateBalloonSize(size)  //在 degonfler() 中添加逻辑updateBalloonSize(size)，确保每次鼠标移开后按5px递减，直到尺寸回到初始值。
 			}
-		}
-		
 
-		Balloon.addEventListener("mouseleave",changecolor2) //pour l'objet balloon, on ajoute un quatrième évènement dessous, lorsaue l'on enlève le souris depuis le balloon, il va exécuter la function "changecolor2" ci-dessous
-		let NbMoveout= 100     //on a créé un nouveau variable NbMoveout=10000, ceci est une valeur aléatoire, tant qu'il est supérieur à la valeur maximum de NbClick c'est bon! sinon il va devenir une valeur négatif, [NbMoveout%colorbook1.length] va sortir des résultats non souhaitable par rapport au NbMoveout>=0 
-		function changecolor2 (){  //création de la fonction changecolor2, le programme prendra le changement de couleur dans le sens inverse ["color1","color3","color2"]
-			if (size>200)  {   //si size >200
-			Balloon.setAttribute("class",colorbook1[NbMoveout%colorbook1.length]) //on remplace la class par la colorbook1 mais dans le sens inverse 
-			NbMoveout--       //à chaque fois l'on enlève 1 pour le NbMoveut--
-			console.log(NbMoveout) 
-			}else{   //sinon càd size=200 dans notre cas
-				Balloon.setAttribute("class","color1")  //lorsque size=200, le balloon va reprendre la couleur rouge.
+			function changecolor2() {  //création de la fonction changecolor2, le programme prendra le changement de couleur dans le sens inverse ["color1","color3","color2"]
+				if (size > 200) {   //si size >200
+
+					//à chaque fois l'on enlève 1 pour le NbMoveut--	
+					Balloon.setAttribute("class", colorbook2[NbMoveout % colorbook2.length]) //on remplace la class par la colorbook1 mais dans le sens inverse 
+					NbMoveout++
+					console.log(NbMoveout)
+				} else {   //sinon càd size=200 dans notre cas
+					Balloon.setAttribute("class", "color1")  //lorsque size=200, le balloon va reprendre la couleur rouge.
+				}
+
 			}
-			
+
+			changecolor2()
 		}
-		
-		
-		
-		
-	
-
-
 	</script>
 </html>

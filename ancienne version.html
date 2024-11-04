@@ -29,21 +29,21 @@
 		const Balloon=document.querySelector("#balloon") //récupérer un élément DOM avec id balloon
 		let size=200         //déclarer un nouveau variable size pour que ce soit également à la hauteur et la largeur 
 		console.log('size =  ' + size)
+		balloon.style.height = size + "px"  //la hauteur (height défini dans Css pour id balloon) de l'élément "balloon" nommé dans html va changer sa valeur en size+"px"
+		balloon.style.width = size + "px"
 		Balloon.addEventListener("click",souffler)   //pour l'objet balloon, on ajoute un évènement dessus, lorsque l'on clique, il va enclencher la function "souffler"
 		function souffler(){   
 			           //création de la function souffler()
-			if (size <=420){                //quand la taille est égale ou inférieure à 420 on va ajouter 10 px sur le balloon.
+			if (size < 420){                //quand la taille est égale ou inférieure à 420 on va ajouter 10 px sur le balloon.
 				size +=10                      //lorsque l'on exécute la function souffler(), la size va ajouter "10"
-				balloon.style.height=size+"px"  //la hauteur (height défini dans Css pour id balloon) de l'élément "balloon" nommé dans html va changer sa valeur en size+"px"
-				balloon.style.width=size+"px" //idem pour la largeur 
+				 //idem pour la largeur 
 				console.log('size =  ' + size) 
 			}
 
 			
-			if (size > 420){        //pk 415? car je veux que quand la taille de balloon est devenue 415, puis si on clique une fois de plus, il va devenir 425, en revanche, le balloon va s'exploser quand il va atteindre 420, donc je veux que le ballon reprend sa taille initiale 200 avant de cliquer sur le balloon de 415px
+			else{        //pk 415? car je veux que quand la taille de balloon est devenue 415, puis si on clique une fois de plus, il va devenir 425, en revanche, le balloon va s'exploser quand il va atteindre 420, donc je veux que le ballon reprend sa taille initiale 200 avant de cliquer sur le balloon de 415px
 				size=200  
-				balloon.style.height = size + "px"  //la hauteur (height défini dans Css pour id balloon) de l'élément "balloon" nommé dans html va changer sa valeur en size+"px"
-				balloon.style.width = size + "px"
+				
 				console.log('size =  ' + size)          //PRBOLEME!!!!! On ne peut pas mettre "size=190" ici, ceci empêcher l'exécution de la fonction degoufler() et changecolor2()
 			}                        //En l'occurence, le ballon ne dégonfle pas correctement lorsque sa taille atteint 420px. Cela est dû à la façon dont la taille (size) est gérée dans la fonction souffler(). En effet, lorsque la taille atteint ou dépasse 415px, vous réinitialisez directement size à 190px. Cela empêche la fonction degonfler() de savoir que la taille du ballon a atteint 420px et de le dégonfler correctement.
 //在你的代码中，当气球尺寸达到420px时，鼠标移开不会触发 degonfler() 减小尺寸。这是因为在 souffler() 函数中，当尺寸达到或超过415px时，size 被强制设置为190，并且没有正确处理鼠标移开后的缩小逻辑。
@@ -71,8 +71,7 @@
 			console.log('size =  ' + size)   //création de la function degoufler()
 			if (size >=205){    //si la taille de balloon = ou > 205, il exécutera les actions ci-dessous, pk on met 205 au lieu de 200, si on a mis size >=200, il va dégoufler le ballon jusqu'au 195px
 			size-=5             //le variable size va reduire 5px
-			balloon.style.height=size+"px" //idem que la ligne N°35
-			balloon.style.width=size+"px"  //idem que la ligne N°36
+			
 			}
 		}
 
